@@ -1,5 +1,6 @@
 package com.jhona.appsubirarchivos.controllers;
 
+import com.jhona.appsubirarchivos.dtos.res.ResponseFile;
 import com.jhona.appsubirarchivos.dtos.res.ResponseMessage;
 import com.jhona.appsubirarchivos.entity.FileEntity;
 import com.jhona.appsubirarchivos.services.IFileService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -37,8 +39,17 @@ public class FileController {
         FileEntity fileEntity = fileService.getFile(id).get();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment : filename\""+fileEntity.getNombre()
-                +"\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment : filename\"" + fileEntity.getNombre()
+                        + "\"")
                 .body(fileEntity.getData());
     }
+
+    @GetMapping("/files")
+    public ResponseEntity<List<ResponseFile>> getAllFiles() {
+        List<ResponseFile> files = fileService.getAllFiles();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(files);
+    }
+
 }
