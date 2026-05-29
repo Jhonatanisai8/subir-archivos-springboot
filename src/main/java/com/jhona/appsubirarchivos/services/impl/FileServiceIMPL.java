@@ -27,6 +27,9 @@ public class FileServiceIMPL
 
     @Override
     public FileEntity store(MultipartFile file) throws IOException {
+        if (file.getContentType() == null) {
+            throw new IOException("El archivo no tiene un tipo de contenido");
+        }
         String nombreArchivo = StringUtils.cleanPath(file.getOriginalFilename());
         FileEntity fileEntity = FileEntity.builder()
                 .nombre(nombreArchivo)

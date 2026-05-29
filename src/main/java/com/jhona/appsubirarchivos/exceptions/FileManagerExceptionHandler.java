@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @ControllerAdvice
 public class FileManagerExceptionHandler {
@@ -25,4 +26,10 @@ public class FileManagerExceptionHandler {
                 .body(new ResponseMessage("Archivo no encontrado."));
     }
 
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ResponseMessage> handleException(IOException ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseMessage("Error al subir el archivo."));
+    }
 }
