@@ -39,7 +39,8 @@ public class FileController {
         FileEntity fileEntity = fileService.getFile(id).get();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment : filename\"" + fileEntity.getNombre()
+                .header(HttpHeaders.CONTENT_TYPE, fileEntity.getTipo())
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileEntity.getNombre()
                         + "\"")
                 .body(fileEntity.getData());
     }
