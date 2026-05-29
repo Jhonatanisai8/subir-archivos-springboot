@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,12 @@ public class FileServiceIMPL
                 .data(file.getBytes())
                 .build();
         return fileRepository.save(fileEntity);
+    }
+
+    @Override
+    public Optional<FileEntity> getFile(UUID id) throws FileNotFoundException {
+        Optional<FileEntity> fileEntity = fileRepository.findById(id);
+        if(fileEntity.isEmpty()) throw new FileNotFoundException("Archivo no encontrado");
+        return fileEntity;
     }
 }
